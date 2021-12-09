@@ -11,24 +11,25 @@ import java.util.List;
  *
  * @author colin
  */
-public class MyThread extends Thread{
-    
-    Bandeau bandeau; 
+public class MyThread extends Thread {
+
+    Bandeau bandeau;
     List<ScenarioElement> myElements;
-    
-    public MyThread(Bandeau bandeau , List<ScenarioElement> myElements){
-        this.bandeau = bandeau; 
+
+    public MyThread(Bandeau bandeau, List<ScenarioElement> myElements) {
+        this.bandeau = bandeau;
         this.myElements = myElements;
     }
-    
-    public void run(){
-        for (ScenarioElement element : myElements) {
-            for (int repeats = 0; repeats < element.repeats; repeats++) {
-                element.effect.playOn(bandeau);
-                
+
+    public void run() {
+        synchronized (bandeau) {
+            for (ScenarioElement element : myElements) {
+                for (int repeats = 0; repeats < element.repeats; repeats++) {
+                    element.effect.playOn(bandeau);
+
+                }
             }
         }
     }
-    
-    
+
 }
